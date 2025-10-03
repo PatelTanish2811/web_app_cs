@@ -1,0 +1,8 @@
+body { font-family: Arial, sans-serif; background: #f7f7f7; margin: 0; padding: 0; }
+h2 { color: #333; }
+form { background: #fff; padding: 20px; margin: 40px auto; width: 300px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+div { margin-bottom: 10px; }
+input { width: 100%; padding: 8px; box-sizing: border-box; }
+.flash { padding: 10px; margin: 10px 0; border-radius: 4px; }
+.flash.success { background: #d4edda; color: #155724; }
+.flash.danger { background: #f8d7da; color: #721c24; }
