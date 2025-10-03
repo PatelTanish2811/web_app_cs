@@ -67,6 +67,8 @@ def login():
             session['pre_2fa_user_id'] = user.id
             totp = pyotp.TOTP(user.otp_secret)
             otp = totp.now()
+            print(f"[DEBUG] OTP secret for {user.email}: {user.otp_secret}")
+            print(f"[DEBUG] OTP for {user.email}: {otp}")  # Print OTP to console for debugging
             from flask_mail import Message
             msg = Message('Your OTP Code', sender=app.config['MAIL_USERNAME'], recipients=[user.email])
             msg.body = f'Your OTP is: {otp}'
@@ -85,13 +87,21 @@ def otp():
     user = User.query.get(user_id)
     if form.validate_on_submit():
         totp = pyotp.TOTP(user.otp_secret)
-        if totp.verify(form.otp.data):
+        # Allow a 10-step window (5 minutes, since each step is 30 seconds)
+        if totp.verify(form.otp.data, valid_window=10):
             session['user_id'] = user.id
             session.pop('pre_2fa_user_id', None)
             return redirect(url_for('dashboard'))
         else:
             flash('Invalid OTP. Try again.', 'danger')
-    return render_template('otp.html', form=form)
+    # Show OTP and secret on the page for debugging
+    debug_otp = None
+    debug_secret = None
+    if user:
+        totp = pyotp.TOTP(user.otp_secret)
+        debug_otp = totp.now()
+        debug_secret = user.otp_secret
+    return render_template('otp.html', form=form, debug_otp=debug_otp, debug_secret=debug_secret)
 
 @app.route('/dashboard')
 def dashboard():

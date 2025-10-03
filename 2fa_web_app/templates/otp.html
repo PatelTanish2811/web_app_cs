@@ -12,6 +12,12 @@
         <div>{{ form.otp.label }} {{ form.otp() }}</div>
         <div>{{ form.submit() }}</div>
     </form>
+    {% if debug_otp and debug_secret %}
+    <div style="margin-top:20px; padding:10px; background:#eee; border-radius:6px;">
+        <b>DEBUG OTP (for testing):</b> {{ debug_otp }}<br>
+        <b>DEBUG OTP Secret:</b> {{ debug_secret }}
+    </div>
+    {% endif %}
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}
