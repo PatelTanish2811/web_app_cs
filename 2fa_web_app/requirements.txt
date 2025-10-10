@@ -7,3 +7,4 @@ flask_wtf
 wtforms
 pyotp
 flask-migrate
+email_validator

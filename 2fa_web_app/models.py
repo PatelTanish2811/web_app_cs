@@ -2,7 +2,9 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 
-from app import db
+# Create the SQLAlchemy object here to avoid importing the app module (prevents circular imports).
+# The application will initialize this with `db.init_app(app)` in `app.py`.
+db = SQLAlchemy()
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
